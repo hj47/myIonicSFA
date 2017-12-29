@@ -1,17 +1,47 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>개인가입설계</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content>
+  <ion-item>
+    <ion-label>가상</ion-label>
+    <ion-toggle [(ngModel)]="virtualYn" default="false"></ion-toggle>
+  </ion-item>
+	   
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-list>
+	<ion-item *ngFor="let customer of customers" (click)="onSelect(customer)">
+	  {{ customer.name }} ({{ customer.age }}:{{customer.gender}}) {{customer.status}}
+	</ion-item>
+  </ion-list>
+  
+  <ion-list *ngIf="selectedCustomer">
+	  <ion-item>
+	  	<ion-label>주피보험자</ion-label>
+		  <ion-select [(ngModel)]="insured"> 
+		  	<ion-option value="{{selectedCustomer.id}}">{{selectedCustomer.name}} ({{selectedCustomer.age}})</ion-option>
+	  	</ion-select>
+	  </ion-item>
+	  <ion-item>
+	  	<ion-label>계약자</ion-label> 
+		  <ion-select [(ngModel)]="contractor"> 
+		  	<ion-option value="{{selectedCustomer.id}}">{{selectedCustomer.name}} ({{selectedCustomer.age}})</ion-option>
+	  	</ion-select>
+	  </ion-item>
+	  <ion-item>
+	  	<ion-label>종피보험자</ion-label> 
+		  <ion-select [(ngModel)]="secondaryInsured"> 
+		  	<ion-option value="{{selectedCustomer}}">{{selectedCustomer.name}} ({{selectedCustomer.age}})</ion-option>
+	  	</ion-select>
+	  </ion-item>
+  </ion-list>
+  
+  <ion-item>
+  	<ion-item-options side="right">
+	  	<button ion-button color="light" outline>취소</button>
+	  	<button ion-button color="dark">확인</button>
+	  </ion-item-options>
+  </ion-item>
 </ion-content>
